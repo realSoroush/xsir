@@ -38,3 +38,8 @@
 .activation-modal .telegram-button:hover{background:#066ca3;border-color:#066ca3}
 .telegram-button .telegram-icon{width:21px;height:21px;flex:0 0 21px}
 .telegram-button span{min-width:0;overflow-wrap:anywhere}
+
+.modal-note,
+#activation-description {
+  white-space: pre-line;
+}
