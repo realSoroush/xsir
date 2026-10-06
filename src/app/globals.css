@@ -32,3 +32,9 @@
 @media(max-width:760px){.course-icon svg{width:32px;height:32px}.summary .course-icon,.summary:last-child .course-icon{border-radius:14px;box-shadow:0 0 27px 4px #ffbf001a,0 0 50px 8px #e7a80008}}
 
 .support-contact:disabled{cursor:default}.support-contact:disabled:hover{transform:none;box-shadow:none;background:#eeeae2}
+
+/* Only the activation dialog link; label remains editable in Supabase. */
+.activation-modal .telegram-button{background:#087dbb;border-color:#087dbb;color:#fff;gap:9px}
+.activation-modal .telegram-button:hover{background:#066ca3;border-color:#066ca3}
+.telegram-button .telegram-icon{width:21px;height:21px;flex:0 0 21px}
+.telegram-button span{min-width:0;overflow-wrap:anywhere}

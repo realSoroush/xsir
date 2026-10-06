@@ -32,7 +32,7 @@ export function initializeLanding(courses: Course[]) {
   dialog.querySelector<HTMLButtonElement>('.close-modal')!.setAttribute('aria-label', popup.close_label);
   document.querySelector<HTMLButtonElement>('#copy-request')!.textContent = popup.copy_label;
   const link = document.querySelector<HTMLAnchorElement>('#telegram-link')!;
-  link.textContent = popup.button_label;
+  link.querySelector<HTMLElement>('#telegram-button-label')!.textContent = popup.button_label;
   requestText = popup.request_text;
   preview.textContent = requestText; status.textContent = '';
   link.href = popup.button_url || supportUrl || `https://t.me/share/url?url=${encodeURIComponent(location.href.split('#')[0])}&text=${encodeURIComponent(requestText)}`;
