@@ -1,4 +1,5 @@
 export interface Course {
+ popup?: unknown;
  id: 1 | 2 | 3;
  n: string; en: string; teacher: string; role: string;
  image: 'pouria' | 'amir' | 'atrin'; art: 'learn' | 'live' | 'master';

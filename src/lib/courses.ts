@@ -7,11 +7,12 @@ export async function getCourses(): Promise<Course[]> {
  try {
   const client = createContentClient();
   if (!client) return defaults;
-  const { data, error } = await client.from('xsir_courses').select('id, content').eq('published', true).order('id');
+  // Selecting all columns also works before the additive popup migration is applied.
+  const { data, error } = await client.from('xsir_courses').select('*').eq('published', true).order('id');
   const courses: Course[] = [];
   for (const row of data || []) {
    if (!isCourse(row.content) || row.content.id !== row.id) throw new Error('Invalid course content');
-   courses.push(row.content);
+   courses.push({ ...row.content, popup: row.popup });
   }
   if (error || courses.length !== 3 || new Set(courses.map(c => c.id)).size !== 3) throw new Error('Incomplete course content');
   return courses;

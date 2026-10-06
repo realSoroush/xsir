@@ -95,3 +95,24 @@ git push -u origin main
 ## اعتبارسنجی
 
 نتیجهٔ بررسی‌های این تحویل در `VALIDATION.md` آمده است. اتصال واقعی Supabase و انتشار روی Vercel نیازمند پروژه و کلیدهای شماست و در این بسته انجام نشده است.
+
+## Editable activation popups
+
+Run `supabase/migrations/202610060001_xsir_popup.sql` in Supabase SQL Editor.
+It adds `popup` (jsonb) to each course, preserves `content` and existing popup edits,
+and seeds the current dialog copy. No changes to RLS are required.
+
+Edit `popup` separately for course IDs 1, 2 and 3 in Table Editor.
+Keys: `eyebrow`, `title`, `description`, `request_text`, `copy_label`,
+`button_label`, `button_url`, `note`, `close_label`, `copied_text`, `copy_error_text`.
+All copy is plain text, not HTML. Text supports `{course_n}`, `{course_title}`,
+`{teacher}` and `{condition}`. `request_text` is both previewed and copied.
+
+`button_url` accepts an absolute HTTPS URL. Empty or invalid values fall back to
+configured Telegram support, then Telegram share. A custom link navigates to that
+URL as entered; it does not automatically send the request. Set `button_label`
+and `note` to match the destination. The final disabled support button is unchanged.
+
+Updates use the existing 60-second server cache and require refreshing the page.
+Missing/invalid popup fields fall back individually without discarding course content.
+The code can be deployed before the migration without losing existing remote courses.

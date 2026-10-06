@@ -1,4 +1,5 @@
 import type { Course } from './types';
+import { resolvePopup, type CoursePopup } from './popup';
 /** Original menu, activation dialog and progress behavior; cleanup supports React StrictMode. */
 export function initializeLanding(courses: Course[]) {
  const controller = new AbortController();
@@ -17,24 +18,34 @@ export function initializeLanding(courses: Course[]) {
  const preview = document.querySelector<HTMLElement>('#request-preview')!;
  const status = document.querySelector<HTMLElement>('.copy-status')!;
  let requestText = '';
+ let activePopup: CoursePopup | undefined;
  const configured = process.env.NEXT_PUBLIC_SUPPORT_TELEGRAM_URL?.trim() || '';
  const supportUrl = /^https:\/\/t\.me\/[A-Za-z0-9_]{5,32}\/?$/.test(configured) ? configured : '';
  document.querySelectorAll<HTMLButtonElement>('.activate').forEach(button => button.addEventListener('click', () => {
   const l = courses.find(course => course.id === Number(button.dataset.layer));
   if (!l) return;
-  document.querySelector<HTMLElement>('#activation-title')!.textContent = `فعال‌سازی دوره ${l.n}`;
-  requestText = `سلام، برای فعال‌سازی دوره ${l.n} طرح اکسیر پیام می‌دهم.\nلطفاً برای ${l.condition} و دریافت دسترسی این دوره راهنمایی‌ام کنید.`;
+  const popup = resolvePopup(l, Boolean(supportUrl));
+  activePopup = popup;
+  dialog.querySelector<HTMLElement>('.eyebrow')!.textContent = popup.eyebrow;
+  document.querySelector<HTMLElement>('#activation-title')!.textContent = popup.title;
+  document.querySelector<HTMLElement>('#activation-description')!.textContent = popup.description;
+  dialog.querySelector<HTMLButtonElement>('.close-modal')!.setAttribute('aria-label', popup.close_label);
+  document.querySelector<HTMLButtonElement>('#copy-request')!.textContent = popup.copy_label;
+  const link = document.querySelector<HTMLAnchorElement>('#telegram-link')!;
+  link.textContent = popup.button_label;
+  requestText = popup.request_text;
   preview.textContent = requestText; status.textContent = '';
-  document.querySelector<HTMLAnchorElement>('#telegram-link')!.href = supportUrl || `https://t.me/share/url?url=${encodeURIComponent(location.href.split('#')[0])}&text=${encodeURIComponent(requestText)}`;
-  document.querySelector<HTMLElement>('.modal-note')!.textContent = supportUrl ? 'پشتیبانی مراحل فعال‌سازی را با شما پیگیری می‌کند.' : 'در تلگرام، گفت‌وگوی پشتیبانی 2FX را برای ارسال انتخاب کن.';
+  link.href = popup.button_url || supportUrl || `https://t.me/share/url?url=${encodeURIComponent(location.href.split('#')[0])}&text=${encodeURIComponent(requestText)}`;
+  document.querySelector<HTMLElement>('.modal-note')!.textContent = popup.note;
   dialog.showModal();
  }, { signal }));
  document.querySelector('#copy-request')!.addEventListener('click', async () => {
-  try { await navigator.clipboard.writeText(requestText); status.textContent = 'درخواست کپی شد.'; }
+  const popup = activePopup;
+  try { await navigator.clipboard.writeText(requestText); status.textContent = popup?.copied_text || 'درخواست کپی شد.'; }
   catch {
    const range = document.createRange(); range.selectNodeContents(preview);
    const selection = window.getSelection(); selection?.removeAllRanges(); selection?.addRange(range);
-   status.textContent = 'متن انتخاب شد؛ آن را کپی کن.';
+   status.textContent = popup?.copy_error_text || 'متن انتخاب شد؛ آن را کپی کن.';
   }
  }, { signal });
  dialog.querySelector('.close-modal')!.addEventListener('click', () => dialog.close(), { signal });
