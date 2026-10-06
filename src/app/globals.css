@@ -57,3 +57,8 @@
 .course-access-note strong{color:var(--gold)}
 .faq-grid details:last-child{grid-column:auto}
 @media(max-width:760px){.layer-copy .activation{padding:14px 15px}.course-access-note{align-items:flex-start;gap:11px;padding:16px;margin-top:18px}.course-access-note p{font-size:.875rem}}
+
+.activation-modal #activation-description {
+  font-size: 1.125rem; /* حدود 18 پیکسل */
+  line-height: 1.9;
+}
