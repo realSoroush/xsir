@@ -62,3 +62,7 @@
   font-size: 1.125rem; /* حدود 18 پیکسل */
   line-height: 1.9;
 }
+
+.activation-modal #copy-request {
+  display: none;
+}
