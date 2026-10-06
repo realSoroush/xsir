@@ -43,3 +43,17 @@
 #activation-description {
   white-space: pre-line;
 }
+
+/* Highlight activation conditions and cumulative access below course cards. */
+.layer-copy .activation{padding:16px 18px;margin-bottom:20px;border:1px solid #af82f638;border-right:3px solid #af82f6;border-radius:12px;background:linear-gradient(120deg,#af82f619,#af82f60a)}
+.layer-copy .activation-label{color:#cfb1f6;font-weight:700;margin-bottom:7px}
+.layer-copy .activation-hint{color:#bcb0cd}
+.layer-row:last-child .activation{border-color:#e8bd6240;border-right-color:var(--gold);background:linear-gradient(120deg,#e8bd621c,#e8bd620a)}
+.layer-row:last-child .activation-label{color:var(--gold)}
+.layer-row:last-child .activation-hint{color:#c8bea9}
+.course-access-note{display:flex;align-items:center;gap:14px;margin-top:24px;padding:19px 22px;border:1px solid #e8bd6240;border-radius:14px;background:linear-gradient(110deg,#e8bd6218,#e8bd6209)}
+.course-access-note-icon{display:grid;place-items:center;flex:0 0 30px;height:30px;border-radius:50%;border:1px solid #e8bd6260;background:#e8bd6215;color:var(--gold);font-weight:900;font-size:1.1rem}
+.course-access-note p{color:#e8dfcf;font-size:.9375rem;line-height:1.9}
+.course-access-note strong{color:var(--gold)}
+.faq-grid details:last-child{grid-column:auto}
+@media(max-width:760px){.layer-copy .activation{padding:14px 15px}.course-access-note{align-items:flex-start;gap:11px;padding:16px;margin-top:18px}.course-access-note p{font-size:.875rem}}
